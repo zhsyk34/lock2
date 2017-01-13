@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+    <property name="dir" value="${catalina.home}/monitor/logs/"/>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss} [%thread] %-5level %logger{36} -%msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="ROLL" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${dir}/today.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${dir}%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>365</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{HH:mm:ss} [%thread] %-5level %logger{5} - %msg%n</pattern>
+        </encoder>
+        <append>true</append>
+        <prudent>false</prudent>
+    </appender>
+
+    <!-- <logger name="com.dnake.smart" level="debug" additivity="false">
+         <appender-ref ref="STDOUT"/>
+     </logger>
+
+     <logger name="mapper" level="debug" additivity="false"/>-->
+
+    <logger name="com.dnake.smart.exception" level="debug" additivity="false">
+        <appender-ref ref="ROLL"/>
+    </logger>
+
+    <root level="trace">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="ROLL"/>
+    </root>
+</configuration>

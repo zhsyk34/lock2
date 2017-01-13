@@ -1,0 +1,119 @@
+/*header*/
+.header {
+    min-width: 1270px;
+    height: 60px;
+    background: #f08519;
+}
+
+#logo {
+    float: left;
+    display: inline;
+    margin-left: 53px;
+    line-height: 60px;
+    font-size: 26px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    color: #fff;
+}
+
+.header .right {
+    float: right;
+    display: inline;
+    margin-right: 30px;
+}
+
+.header .right i {
+    float: left;
+    display: inline;
+    width: 1px;
+    height: 60px;
+    overflow: hidden;
+    background: #dd7207;
+}
+
+.right div {
+    float: right;
+    display: inline;
+    padding-left: 24px;
+    line-height: 60px;
+    border-left: 1px solid #eba055;
+    height: 60px;
+}
+
+#logout {
+    display: inline-block;
+    padding-left: 19px;
+    background: url(../img/logout.png) 0 center no-repeat;
+    color: #fff;
+}
+
+.content {
+    position: absolute;
+    top: 60px;
+    bottom: 0;
+    width: 100%;
+    overflow-y: hidden;
+}
+
+.nav {
+    position: absolute;
+    height: 100%;
+    width: 250px;
+    background: #292d30;
+    overflow-y: auto;
+}
+
+#remind {
+    padding: 0 6px;
+    font-size: 14px;
+}
+
+.nav .glint-one {
+    color: #f8f5d6;
+}
+
+.nav .glint-two {
+    color: #d43039;
+}
+
+.photo {
+    padding: 30px 0 20px;
+    text-align: center;
+}
+
+.photo p {
+    margin: 5px 0;
+    line-height: 50px;
+    font-size: 18px;
+    color: #fff;
+}
+
+.nav li {
+    border-top: 1px solid #131415;
+    border-bottom: 1px solid #3d4042;
+    background: #292d30;
+}
+
+.nav li a {
+    display: block;
+    padding-left: 51px;
+    color: #fff;
+    vertical-align: middle;
+    font-size: 20px;
+    line-height: 96px;
+    letter-spacing: 1px;
+}
+
+.nav li.active a {
+    color: #f08519;
+    background: url(../img/arrows.png) 78% 53% no-repeat #1f2123;
+}
+
+#main {
+    /*position: absolute;*/
+    /*left: 250px;*/
+    /*right: 250px;*/
+    height: 100%;
+    /*padding: 20px;*/
+    margin-left: 250px;
+}

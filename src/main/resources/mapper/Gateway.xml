@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dnake.entity.Gateway">
+    <sql id="table">gateway</sql>
+    <sql id="key">id</sql>
+    <sql id="id">id</sql>
+    <sql id="columns">id, sn, udid, name, ip, port, remote, version, createTime, updateTime</sql>
+    <sql id="sort">
+        <if test="sort != null and !sort.isEmpty() and order != null and !order.isEmpty()">
+            ORDER BY ${sort} ${order}
+        </if>
+    </sql>
+    <resultMap id="Gateway" type="Gateway">
+        <id property="id" column="id"/>
+        <result property="sn" column="sn"/>
+        <result property="udid" column="udid"/>
+        <result property="name" column="name"/>
+        <result property="ip" column="ip"/>
+        <result property="port" column="port"/>
+        <result property="remote" column="remote"/>
+        <result property="version" column="version"/>
+        <result property="createTime" column="createTime"/>
+        <result property="updateTime" column="updateTime"/>
+    </resultMap>
+
+    <insert id="save" keyProperty="id">
+        INSERT INTO
+        <include refid="table"/>
+        (<include refid="columns"/>)
+        VALUES
+        (NULL, #{sn}, #{udid}, #{name}, #{ip}, #{port}, #{remote}, #{version}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+    </insert>
+
+    <insert id="saves" keyProperty="id">
+        INSERT INTO
+        <include refid="table"/>
+        (<include refid="columns"/>)
+        VALUES
+        <foreach collection="list" item="entity" separator=",">
+            (NULL, #{entity.sn}, #{entity.udid}, #{entity.name}, #{entity.ip}, #{entity.port}, #{entity.remote}, #{entity.version}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+        </foreach>
+    </insert>
+
+    <delete id="deleteById">
+        DELETE FROM
+        <include refid="table"/>
+        WHERE
+        <include refid="key"/>
+        = #{id}
+    </delete>
+
+    <delete id="deleteByEntity">
+        DELETE FROM
+        <include refid="table"/>
+        WHERE
+        <include refid="key"/>
+        = #{id}
+    </delete>
+
+    <delete id="deleteByIds">
+        DELETE FROM
+        <include refid="table"/>
+        WHERE
+        <include refid="key"/>
+        IN
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <delete id="deleteByEntities">
+        DELETE FROM
+        <include refid="table"/>
+        WHERE
+        <include refid="key"/>
+        IN
+        <foreach collection="list" item="entity" open="(" separator="," close=")">
+            #{entity.id}
+        </foreach>
+    </delete>
+
+    <update id="update">
+        UPDATE
+        <include refid="table"/>
+        SET
+        name = #{name}, version = #{version}, updateTime = CURRENT_TIMESTAMP
+        WHERE
+        <include refid="key"/>
+        = #{id}
+    </update>
+
+    <select id="findById" resultMap="Gateway">
+        SELECT * FROM
+        <include refid="table"/>
+        WHERE
+        <include refid="key"/>
+        = #{id}
+    </select>
+
+    <select id="find" resultMap="Gateway">
+        SELECT * FROM
+        <include refid="table"/>
+        WHERE udid = #{udid}
+    </select>
+
+    <select id="findList" resultMap="Gateway">
+        SELECT * FROM
+        <include refid="table"/>
+        <include refid="search"/>
+        <include refid="sort"/>
+    </select>
+
+    <select id="count" resultType="int">
+        SELECT COUNT(*) FROM
+        <include refid="table"/>
+        <include refid="search"/>
+    </select>
+
+    <sql id="search">
+        <where>
+            <if test="sn != null">
+                AND sn LIKE "%"#{sn}"%"
+            </if>
+            <if test="name != null">
+                AND name LIKE "%"#{name}"%"
+            </if>
+        </where>
+    </sql>
+
+</mapper>
