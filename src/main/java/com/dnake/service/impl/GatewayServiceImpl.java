@@ -1,5 +1,7 @@
 package com.dnake.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.dnake.common.Page;
 import com.dnake.common.Sort;
 import com.dnake.dao.GatewayDao;
@@ -21,6 +23,18 @@ public class GatewayServiceImpl implements GatewayService {
 
 	@Override
 	public int save(Gateway gateway) {
+		String udid = gateway.getUdid();
+		String r = GatewaySnService.search(udid);
+		System.out.println(r);
+		JSONObject json = JSON.parseObject(r);
+		if (!json.getBooleanValue("success")) {
+			return -1;
+		}
+		String sn = json.getString("msg");
+		if (ValidateKit.empty(sn)) {
+			return -1;
+		}
+		gateway.setSn(sn);
 		return gatewayDao.save(gateway);
 	}
 

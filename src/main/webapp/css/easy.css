@@ -16,11 +16,11 @@
     margin-left: 15px;
 }
 
-#editor, #word {
+#editor, #word, #ctrl {
     padding: 5px 40px 5px 5px;
 }
 
-#editor td, #word td {
+#editor td, #word td, #ctrl td {
     padding: 5px;
 }
 

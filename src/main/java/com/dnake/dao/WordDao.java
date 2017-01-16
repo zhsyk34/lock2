@@ -9,4 +9,6 @@ public interface WordDao extends CommonDao<Word, Long> {
 	Word find(long lockId, int number);
 
 	List<Word> findList(long lockId, Integer number);
+
+	int deleteByLock(long lockId);
 }

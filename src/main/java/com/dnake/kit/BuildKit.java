@@ -2,7 +2,7 @@ package com.dnake.kit;
 
 import com.dnake.common.mapping.EntityManager;
 import com.dnake.common.mapping.Tuple;
-import com.dnake.entity.Lock;
+import com.dnake.entity.User;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -11,7 +11,7 @@ import java.util.List;
 public class BuildKit {
 
 	public static void main(String[] args) throws Exception {
-		build(Lock.class.getPackage(), true);
+		build(User.class, false);
 	}
 
 	private static void build(Package pack, boolean overwrite) {
@@ -20,7 +20,7 @@ public class BuildKit {
 	}
 
 	private static void build(Class clazz, boolean overwrite) {
-		buildFile(clazz, overwrite);
+//		buildFile(clazz, overwrite);
 		buildXML(clazz, overwrite);
 	}
 

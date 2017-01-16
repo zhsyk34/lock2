@@ -2,6 +2,18 @@ DROP TABLE IF EXISTS gateway;
 DROP TABLE IF EXISTS locks;
 DROP TABLE IF EXISTS word;
 
+CREATE TABLE IF NOT EXISTS user (
+  id         BIGINT UNSIGNED NOT NULL                AUTO_INCREMENT,
+  name       VARCHAR(30)     NOT NULL,
+  password   VARCHAR(60)     NOT NULL,
+  createTime TIMESTAMP       NOT NULL,
+  updateTime TIMESTAMP       NOT NULL,
+  PRIMARY KEY (id)
+)
+  COMMENT = '用户'
+  ENGINE = InnoDB
+  DEFAULT CHARSET = UTF8;
+
 CREATE TABLE IF NOT EXISTS gateway (
   id         BIGINT UNSIGNED NOT NULL                AUTO_INCREMENT,
   sn         VARCHAR(30)     NOT NULL,
@@ -55,6 +67,8 @@ ALTER TABLE word
   ADD CONSTRAINT fk_word_locks FOREIGN KEY (lockId) REFERENCES locks (id);
 
 /*unique key*/
+ALTER TABLE user
+  ADD CONSTRAINT un_user_name UNIQUE (name);
 ALTER TABLE gateway
   ADD CONSTRAINT un_gw_sn UNIQUE (sn),
   ADD CONSTRAINT un_gw_udid UNIQUE (udid);

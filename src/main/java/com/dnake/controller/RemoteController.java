@@ -36,7 +36,11 @@ public class RemoteController extends CommonController {
 		try {
 			switch (operation) {
 				case ENTER:
-					result = commandService.enter(udid, info.getName()) != null;
+					String r = commandService.enter(udid, info.getName());
+					result = r != null;
+					if (result) {
+						return new Feedback(CodeEnum.SYSTEM.getNumber(), CodeEnum.SYSTEM.getDescription(), r);
+					}
 					break;
 				case BEGIN:
 					result = commandService.begin(uuid);
@@ -55,8 +59,10 @@ public class RemoteController extends CommonController {
 					break;
 				case QUERY:
 					Lock lock = lockService.find(uuid);
+					if (lock == null) {
+						return new Feedback(CodeEnum.PARAM.getNumber(), CodeEnum.PARAM.getDescription(), null);
+					}
 					List<Word> list = wordService.findList(lock.getId());
-					//todo
 					return new Feedback(CodeEnum.SYSTEM.getNumber(), CodeEnum.SYSTEM.getDescription(), list);
 				default:
 					break;
@@ -65,10 +71,10 @@ public class RemoteController extends CommonController {
 			e.printStackTrace();
 		}
 
-		if (!result) {
-			return new Feedback(CodeEnum.SYSTEM.getNumber(), CodeEnum.SYSTEM.getDescription(), operation.getDescription() + "失败");
+		if (result) {
+			return new Feedback(CodeEnum.NULL.getNumber(), CodeEnum.NULL.getDescription(), operation.getDescription() + "成功");
 		}
-		return new Feedback(CodeEnum.NULL.getNumber(), CodeEnum.NULL.getDescription(), operation.getDescription() + "成功");
+		return new Feedback(CodeEnum.SYSTEM.getNumber(), CodeEnum.SYSTEM.getDescription(), operation.getDescription() + "失败");
 	}
 
 	@RequestMapping(value = "/{type}")

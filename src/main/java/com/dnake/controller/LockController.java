@@ -25,7 +25,7 @@ public class LockController extends CommonController {
 		return PageData.of(list, page, count);
 	}
 
-	//1.进入对码状态
+	//绑定1.进入对码状态
 	@RequestMapping(value = "/enter")
 	@ResponseBody
 	public String enter(long gatewayId, String name) {
@@ -36,14 +36,14 @@ public class LockController extends CommonController {
 		return commandService.enter(gateway.getUdid(), name);
 	}
 
-	// 2.启动入网状态,在此后进行绑定操作
+	//绑定2.启动入网状态,在此后进行绑定操作
 	@RequestMapping(value = "/begin")
 	@ResponseBody
 	public boolean begin(String uuid) {
 		return commandService.begin(uuid);
 	}
 
-	// 3.操作完后保存:退出对码状态后进行开锁测试,如果成功则启用并返回uuid,否则删除预存数据
+	//绑定3.操作完后保存:退出对码状态后进行开锁测试,如果成功则启用并返回uuid,否则删除预存数据
 	@RequestMapping(value = "/bind")
 	@ResponseBody
 	public boolean bind(String uuid) {
@@ -84,5 +84,12 @@ public class LockController extends CommonController {
 	public boolean delete(Long[] ids) {
 		lockService.deleteByIds(ids);
 		return true;
+	}
+
+	//控制
+	@RequestMapping("/ctrl")
+	@ResponseBody
+	public boolean ctrl(String uuid, int type) {
+		return type == 1 ? commandService.open(uuid) : commandService.close(uuid);
 	}
 }

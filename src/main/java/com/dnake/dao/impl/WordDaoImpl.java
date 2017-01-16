@@ -26,4 +26,11 @@ public class WordDaoImpl extends CommonDaoImpl<Word, Long> implements WordDao {
 		}
 		return super.findList(map);
 	}
+
+	@Override
+	public int deleteByLock(long lockId) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("lockId", lockId);
+		return super.session.delete(map);
+	}
 }

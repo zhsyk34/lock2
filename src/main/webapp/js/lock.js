@@ -1,7 +1,7 @@
 "use strict";
 $(function () {
-        var $grid = $("#data"), $form = $("#form"), $editor = $("#editor");
-        var $tr = $form.find("tr.number"), $gateway = $("#gatewayId"), $number = $("#number"), $name = $("#name");
+    var $grid = $("#data"), $form = $("#form"), $editor = $("#editor"), $word = $("#word");
+    var $tr = $form.find("tr.number"), $gateway = $("#gatewayId"), $uuid = $("#uuid"), $name = $("#name");
         //buttons
         var $sure = $("#sure"), $enter = $("#enter"), $begin = $("#begin"), $bind = $("#bind"), $cancel = $("#cancel");
 
@@ -30,21 +30,14 @@ $(function () {
 
         function load() {
             $grid.datagrid({
-                title: "网关列表",
+                title: "门锁列表",
                 url: "lock/find",
-                checkOnSelect: false,
-                queryParams: {"pageNo": 1},
                 columns: [[
                     {field: "", checkbox: true},
                     {field: "name", title: "名称", width: 10},
                     {field: "number", title: "设备号", width: 10},
                     {field: "uuid", title: "序列号", width: 10},
-                    {field: "createTime", title: "创建时间", width: 10},
-                    {
-                        field: "id", title: "密码设置", width: 10, align: "center", formatter: function (value) {
-                        return '<a class="set" data-id="' + value + '">设置</a>';
-                    }
-                    }
+                    {field: "createTime", title: "创建时间", width: 10}
                 ]],
                 toolbar: [{
                     text: "入网",
@@ -94,10 +87,35 @@ $(function () {
                             }
                         });
                     }
-                }],
-                onLoadSuccess: function () {
-                    $(this).datagrid("getPanel").find("a.set").linkbutton();
-                }
+                }, {
+                    text: "修改密码",
+                    iconCls: "icon-lock",
+                    handler: function () {
+                        var rows = $grid.datagrid("getSelections");
+                        if (rows.length !== 1) {
+                            $.messager.alert({title: $.message.warn, msg: "请选择一条数据"});
+                            return;
+                        }
+                        var row = rows[0];
+                        $word.data("id", row.id);
+                        $("#value").numberbox("clear");
+                        $word.dialog("open");
+                    }
+                }, {
+                    text: "控制",
+                    iconCls: "icon-tip",
+                    handler: function () {
+                        var rows = $grid.datagrid("getSelections");
+                        if (rows.length !== 1) {
+                            $.messager.alert({title: $.message.warn, msg: "请选择一条数据"});
+                            return;
+                        }
+                        var row = rows[0];
+                        $("#ctrl").data("uuid", row.uuid);
+                        $("#ctrl").find(":radio:first").prop("checked", true);
+                        $("#ctrl").dialog("open");
+                    }
+                }]
             });
 
         }
@@ -165,8 +183,8 @@ $(function () {
                     url: "lock/enter",
                     after: function (r) {
                         $.messager.progress("close");
-                        if (r > -1) {
-                            $number.numberbox("setValue", r);
+                        if (r) {
+                            $uuid.textbox("setValue", r);
 
                             //switching
                             state("begin");
@@ -198,8 +216,10 @@ $(function () {
                     form: $form,
                     url: "lock/bind",
                     after: function (r) {
+                        console.log(r);
                         $.messager.progress("close");
                         if (r) {
+                            $editor.dialog("close");
                             $.messager.alert({title: $.message.prompt, msg: "绑定成功"});
                             load();
                         } else {
@@ -210,14 +230,51 @@ $(function () {
             });
         }
 
+    ctrl();
+    function ctrl() {
+        $("#ctrl").dialog({
+            title: "控制",
+            buttons: [{
+                text: "确定",
+                iconCls: "icon-ok",
+                handler: function () {
+                    var uuid = $("#ctrl").data("uuid");
+                    var type = $("#ctrl").find(":radio:checked").val();
+                    console.log(type);
+                    $.messager.progress();
+                    $.ajax({
+                        url: "lock/ctrl",
+                        async: true,
+                        data: {uuid: uuid, type: type},
+                        success: function (data) {
+                            console.log(data);
+                            $.messager.progress("close");
+                            if (data === "true") {
+                                $.messager.alert({title: $.message.prompt, msg: "操作成功"});
+                            } else {
+                                $.messager.alert({title: $.message.prompt, msg: "操作失败"});
+                            }
+                        }
+                    });
+                }
+            }, {
+                text: "取消",
+                iconCls: "icon-cancel",
+                handler: function () {
+                    $("#ctrl").dialog("close");
+                }
+            }]
+        });
+    }
+
         word();
         function word() {
-            var $word = $("#word"), $index = $word.find("tr:eq(1)"), $type = $("#type");
+            var $index = $word.find("tr:eq(1)"), $type = $("#type");
             $index.hide();
 
             $type.on("change", function () {
                 var type = $(this).val();
-                if (type === "temp") {
+                if (type === "user") {
                     $index.show();
                 } else {
                     $index.hide();
@@ -241,7 +298,7 @@ $(function () {
                                 index = 99;
                                 break;
                             case "user":
-                                index = $index.numberbox("getValue");
+                                index = $("#index").numberbox("getValue");
                                 break;
                         }
                         var id = $word.data("id");
@@ -258,9 +315,10 @@ $(function () {
                             async: true,
                             data: {id: id, value: value, index: index},
                             success: function (data) {
+                                console.log(data);
                                 $.messager.progress("close");
                                 $word.dialog("close");
-                                if (data === true) {
+                                if (data === "true") {
                                     $.messager.alert({title: $.message.prompt, msg: "修改成功"});
                                     find();
                                 } else {
@@ -276,12 +334,6 @@ $(function () {
                         $word.dialog("close");
                     }
                 }]
-            });
-
-            $(document).on("click", "a.set", function () {
-                $word.dialog("open");
-                var id = $(this).attr("data-id");
-                $word.data("id", id);
             });
         }
     }

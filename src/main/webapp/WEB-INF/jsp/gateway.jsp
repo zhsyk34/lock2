@@ -30,7 +30,7 @@
             <table>
                 <tr>
                     <td>序列号:<input type="hidden" name="id"></td>
-                    <td><input id="sn" class="easyui-textbox" type="text" name="sn" data-options="required:true,validType:'length[1,40]'"></td>
+                    <td><input id="udid" class="easyui-textbox" type="text" name="udid" data-options="required:true,validType:'length[6,60]'"></td>
                 </tr>
                 <tr>
                     <td>名 称:</td>

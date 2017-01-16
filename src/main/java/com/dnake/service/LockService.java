@@ -21,4 +21,5 @@ public interface LockService extends CommonService<Lock, Long> {
 	List<Lock> findUsedList(String name, Sort sort, Page page);
 
 	int countUsed(String name);
+
 }

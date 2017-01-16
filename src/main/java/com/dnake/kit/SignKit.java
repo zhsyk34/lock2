@@ -81,12 +81,12 @@ public abstract class SignKit {
 	 * 生成随机字符串
 	 */
 	private static String generateNonceStr(int length) {
-		final int charsLength = fixChars.length();
+		final int range = fixChars.length();
 		final Random random = new Random();
 		final StringBuilder builder = new StringBuilder();
 
 		for (int i = 0; i < length; i++) {
-			builder.append(fixChars.charAt(Math.abs(random.nextInt()) % charsLength));
+			builder.append(fixChars.charAt(Math.abs(random.nextInt()) % range));
 		}
 
 		return builder.toString();

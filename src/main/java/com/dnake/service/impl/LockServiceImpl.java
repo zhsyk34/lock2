@@ -3,6 +3,7 @@ package com.dnake.service.impl;
 import com.dnake.common.Page;
 import com.dnake.common.Sort;
 import com.dnake.dao.LockDao;
+import com.dnake.dao.WordDao;
 import com.dnake.entity.Lock;
 import com.dnake.kit.ValidateKit;
 import com.dnake.service.LockService;
@@ -16,6 +17,8 @@ import java.util.stream.Collectors;
 public class LockServiceImpl extends CommonServiceImpl<Lock, Long> implements LockService {
 	@Resource
 	private LockDao lockDao;
+	@Resource
+	private WordDao wordDao;
 
 	@Override
 	public Lock find(String uuid) {
@@ -64,4 +67,14 @@ public class LockServiceImpl extends CommonServiceImpl<Lock, Long> implements Lo
 	public int countUsed(String name) {
 		return lockDao.count(name, true);
 	}
+
+	@Override
+	public int deleteByIds(Long[] ids) {
+		for (long id : ids) {
+			wordDao.deleteByLock(id);
+		}
+		lockDao.deleteByIds(ids);
+		return ids.length;
+	}
+
 }

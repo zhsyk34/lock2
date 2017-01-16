@@ -3,7 +3,6 @@ package com.dnake.controller;
 import com.dnake.common.Page;
 import com.dnake.common.PageData;
 import com.dnake.entity.Gateway;
-import com.dnake.kit.EncryptKit;
 import com.dnake.kit.ValidateKit;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,14 +34,10 @@ public class GatewayController extends CommonController {
 	@ResponseBody
 	public boolean save(Gateway gateway) {
 		if (ValidateKit.valid(gateway.getId())) {
-			gatewayService.update(gateway);
-		} else {
-			String sn = gateway.getSn();
-			gateway.setUdid(EncryptKit.md5(sn));
-			gatewayService.save(gateway);
+			Gateway original = gatewayService.find(gateway.getId());
+			return original != null && gatewayService.update(original.setName(gateway.getName()).setVersion(gateway.getVersion())) > 0;
 		}
-
-		return true;
+		return gatewayService.save(gateway) > 0;
 	}
 
 	@RequestMapping("/delete")

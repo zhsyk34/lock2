@@ -38,7 +38,7 @@ $(function () {
                 iconCls: "icon-add",
                 handler: function () {
                     $form.form("clear");
-                    $("#sn").textbox("readonly", false);
+                    $("#udid").textbox("readonly", false);
                     $editor.dialog({title: $.message.add}).dialog("open");
                 }
             }, {
@@ -52,7 +52,7 @@ $(function () {
                     }
                     var row = rows[0];
                     $form.form("load", row);
-                    $("#sn").textbox("readonly", true);
+                    $("#udid").textbox("readonly", true);
                     $editor.dialog({title: $.message.mod}).dialog("open");
                 }
             }, {
@@ -89,9 +89,15 @@ $(function () {
                     $.crud.save({
                         form: $form,
                         url: "gateway/save",
-                        callback: function () {
-                            load();
+                        after: function (data) {
+                            $.messager.progress("close");
                             $editor.dialog("close");
+                            if (data === "true") {
+                                $.messager.alert({title: $.message.prompt, msg: "操作成功"});
+                                load();
+                            } else {
+                                $.messager.alert({title: $.message.warn, msg: "操作失败"});
+                            }
                         }
                     });
                 }

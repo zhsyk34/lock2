@@ -62,6 +62,7 @@ public class CommandServiceImpl implements CommandService {
 			lock.setName(name);
 			lockService.update(lock);
 		}
+		lock = lockService.findUnused(gatewayId, number);
 		return lock.getUuid();
 	}
 
@@ -125,7 +126,7 @@ public class CommandServiceImpl implements CommandService {
 		if (!open) {
 			logger.debug("测试开锁失败");
 			lockService.deleteById(lockId);
-			throw new ControlException("开锁失败");
+			throw new ControlException("开锁失败,取消绑定");
 		}
 
 		return true;

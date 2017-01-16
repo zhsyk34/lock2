@@ -37,7 +37,7 @@
                 </tr>
                 <tr class="number">
                     <td>设备号:</td>
-                    <td><input id="number" class="easyui-numberbox" name="number" readonly></td>
+                    <td><input id="uuid" class="easyui-textbox" name="uuid" readonly></td>
                 </tr>
             </table>
         </form>
@@ -72,6 +72,18 @@
             <tr>
                 <td>新密码:</td>
                 <td><input id="value" class="easyui-numberbox" data-options="required:true"></td>
+            </tr>
+        </table>
+    </div>
+
+    <div id="ctrl">
+        <table>
+            <tr>
+                <td>操作:</td>
+                <td>
+                    <label><input type="radio" checked value="1" name="type">开</label>
+                    <label><input type="radio" value="0" name="type">关</label>
+                </td>
             </tr>
         </table>
     </div>

@@ -43,7 +43,10 @@ public class LockDaoTest extends BaseDaoTest {
 	@Test
 	public void count() throws Exception {
 		System.out.println(lockDao.count("n", null));
-
 	}
 
+	@Test
+	public void del() throws Exception {
+		System.out.println(wordDao.deleteByLock(2L));
+	}
 }
