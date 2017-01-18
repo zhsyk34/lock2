@@ -19,7 +19,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/api")
@@ -37,9 +40,9 @@ public class RemoteController extends CommonController {
 			switch (operation) {
 				case ENTER:
 					String r = commandService.enter(udid, info.getName());
-					result = r != null;
+					result = (r != null);
 					if (result) {
-						return new Feedback(CodeEnum.SYSTEM.getNumber(), CodeEnum.SYSTEM.getDescription(), r);
+						return new Feedback(CodeEnum.NULL.getNumber(), CodeEnum.NULL.getDescription(), r);
 					}
 					break;
 				case BEGIN:
@@ -63,7 +66,16 @@ public class RemoteController extends CommonController {
 						return new Feedback(CodeEnum.PARAM.getNumber(), CodeEnum.PARAM.getDescription(), null);
 					}
 					List<Word> list = wordService.findList(lock.getId());
-					return new Feedback(CodeEnum.SYSTEM.getNumber(), CodeEnum.SYSTEM.getDescription(), list);
+					List<Map<String, Object>> maps = new ArrayList<>();
+					if (list != null) {
+						list.forEach(word -> {
+							Map<String, Object> map = new HashMap<>();
+							map.put("index", word.getNumber());
+							map.put("password", word.getValue());
+							maps.add(map);
+						});
+					}
+					return new Feedback(CodeEnum.SYSTEM.getNumber(), CodeEnum.SYSTEM.getDescription(), maps);
 				default:
 					break;
 			}

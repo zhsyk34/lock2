@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dnake.entity.User">
+    <sql id="table">user</sql>
+    <sql id="key">id</sql>
+    <sql id="id">id</sql>
+    <sql id="columns">id, name, password, createTime, updateTime</sql>
+    <sql id="sort">
+        <if test="sort != null and !sort.isEmpty() and order != null and !order.isEmpty()">
+            ORDER BY ${sort} ${order}
+        </if>
+    </sql>
+    <resultMap id="User" type="User">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="password" column="password"/>
+        <result property="createTime" column="createTime"/>
+        <result property="updateTime" column="updateTime"/>
+    </resultMap>
+
+    <insert id="save" keyProperty="id">
+        INSERT INTO
+        <include refid="table"/>
+        (<include refid="columns"/>)
+        VALUES
+        (NULL, #{name}, #{password}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+    </insert>
+
+    <insert id="saves" keyProperty="id">
+        INSERT INTO
+        <include refid="table"/>
+        (<include refid="columns"/>)
+        VALUES
+        <foreach collection="list" item="entity" separator=",">
+            (NULL, #{entity.name}, #{entity.password}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+        </foreach>
+    </insert>
+
+    <delete id="deleteById">
+        DELETE FROM
+        <include refid="table"/>
+        WHERE
+        <include refid="key"/>
+        = #{id}
+    </delete>
+
+    <delete id="deleteByEntity">
+        DELETE FROM
+        <include refid="table"/>
+        WHERE
+        <include refid="key"/>
+        = #{id}
+    </delete>
+
+    <delete id="deleteByIds">
+        DELETE FROM
+        <include refid="table"/>
+        WHERE
+        <include refid="key"/>
+        IN
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <delete id="deleteByEntities">
+        DELETE FROM
+        <include refid="table"/>
+        WHERE
+        <include refid="key"/>
+        IN
+        <foreach collection="list" item="entity" open="(" separator="," close=")">
+            #{entity.id}
+        </foreach>
+    </delete>
+
+    <update id="update">
+        UPDATE
+        <include refid="table"/>
+        SET
+        name = #{name}, password = #{password}, updateTime = CURRENT_TIMESTAMP
+        WHERE
+        <include refid="key"/>
+        = #{id}
+    </update>
+
+    <select id="findById" resultMap="User">
+        SELECT * FROM
+        <include refid="table"/>
+        WHERE
+        <include refid="key"/>
+        = #{id}
+    </select>
+
+    <select id="findByName" resultMap="User">
+        SELECT * FROM
+        <include refid="table"/>
+        WHERE name = #{name}
+    </select>
+
+</mapper>

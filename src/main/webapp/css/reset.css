@@ -1,0 +1,89 @@
+@charset "UTF-8";
+/*格式化样式*/
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #fff;
+    color: #333;
+    font: 14px/1.5 'Microsoft Yahei', Arial, Verdana, Tahoma, Helvetica, sans-serif;
+}
+
+html, body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, input, textarea, p, blockquote, th, td {
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+}
+
+input {
+    outline: none
+}
+
+textarea {
+    resize: none
+}
+
+a, img {
+    border: 0;
+}
+
+a {
+    color: #666;
+    text-decoration: none;
+}
+
+a:link, a:visited {
+    text-decoration: none;
+}
+
+a:active, a:hover {
+    text-decoration: none;
+    border: none
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+fieldset, img {
+    border: 0
+}
+
+address, caption, cite, code, dfn, em, strong, th, var {
+    font-style: normal;
+    font-weight: normal
+}
+
+ol, ul {
+    list-style: none;
+    clear: both;
+    overflow: hidden;
+}
+
+li {
+    list-style-type: none;
+}
+
+caption, th {
+    text-align: left
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-size: 100%;
+    font-weight: normal
+}
+
+q:before, q:after {
+    content: ''
+}
+
+abbr, acronym {
+    border: 0
+}

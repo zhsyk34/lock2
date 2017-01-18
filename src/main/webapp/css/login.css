@@ -1,0 +1,113 @@
+@charset "UTF-8";
+body {
+    background: url(../img/login_bg.png) repeat;
+}
+
+.login_box {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-top: -130px;
+    margin-left: -433px;
+    width: 866px;
+    height: 260px;
+    display: block;
+    overflow: hidden;
+}
+
+.welcome {
+    margin-top: 102px;
+    width: 155px;
+    height: 56px;
+    background: url(../img/welcome.png) no-repeat;
+}
+
+.login {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    background: url(../img/login_inp.png) no-repeat;
+    width: 610px;
+    height: 260px;
+}
+
+.login_inp {
+    width: 254px;
+    height: 127px;
+    margin-top: 42px;
+    margin-left: 124px;
+}
+
+.login_txt {
+    width: 100%;
+    height: 30px;
+    margin-bottom: 12px;
+}
+
+.login_txt label, .login_txt input, .login_txt div, .login_btn, .btn_box a {
+    float: left;
+}
+
+.login_txt label {
+    line-height: 30px;
+    color: #010100;
+    font-size: 14px;
+    margin-right: 8px;
+}
+
+.inp_txt {
+    height: 28px;
+    border: 1px solid #888;
+    background: #fff;
+    width: 191px;
+    padding: 0 3px;
+}
+
+.inp_code {
+    height: 28px;
+    border: 1px solid #888;
+    background: #fff;
+    padding: 0 3px;
+    width: 102px;
+}
+
+.login_txt div {
+    height: 30px;
+    font-size: 0;
+    width: 80px;
+    margin-left: 8px;
+}
+
+.login_txt div img {
+    vertical-align: top;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    display: block;
+    height: 100%;
+    width: 100%;
+}
+
+.btn_box {
+    margin-top: 25px;
+    margin-left: 195px;
+}
+
+.login_btn {
+    background: none;
+    border: 1px solid #fff;
+    height: 34px;
+    font-size: 18px;
+    width: 100px;
+    color: #fff;
+    font-family: SimHei;
+}
+
+.btn_box a {
+    color: #fafcbf;
+    font-size: 14px;
+    line-height: 34px;
+    margin-left: 15px;
+}
