@@ -216,7 +216,6 @@ $(function () {
                     form: $form,
                     url: "lock/bind",
                     after: function (r) {
-                        console.log(r);
                         $.messager.progress("close");
                         if (r) {
                             $editor.dialog("close");
@@ -240,14 +239,12 @@ $(function () {
                 handler: function () {
                     var uuid = $("#ctrl").data("uuid");
                     var type = $("#ctrl").find(":radio:checked").val();
-                    console.log(type);
                     $.messager.progress();
                     $.ajax({
                         url: "lock/ctrl",
                         async: true,
                         data: {uuid: uuid, type: type},
                         success: function (data) {
-                            console.log(data);
                             $.messager.progress("close");
                             if (data === "true") {
                                 $.messager.alert({title: $.message.prompt, msg: "操作成功"});
@@ -302,7 +299,6 @@ $(function () {
                                 break;
                         }
                         var id = $word.data("id");
-                        console.log(id, index, value);
                         if (index < 0 || index > 99 || value.length < 6 || value.length > 10) {
                             $.messager.alert({title: $.message.warn, msg: "数据错误"});
                             return;
@@ -315,7 +311,6 @@ $(function () {
                             async: true,
                             data: {id: id, value: value, index: index},
                             success: function (data) {
-                                console.log(data);
                                 $.messager.progress("close");
                                 $word.dialog("close");
                                 if (data === "true") {

@@ -6,6 +6,7 @@ import com.dnake.api.CodeEnum;
 import com.dnake.api.Feedback;
 import com.dnake.api.Info;
 import com.dnake.api.Operation;
+import com.dnake.entity.Gateway;
 import com.dnake.entity.Lock;
 import com.dnake.entity.Word;
 import com.dnake.exception.ControlException;
@@ -38,6 +39,19 @@ public class RemoteController extends CommonController {
 
 		try {
 			switch (operation) {
+				case REGISTER:
+					Gateway gateway = new Gateway();
+					gateway.setUdid(udid).setName(info.getName());
+					int save = gatewayService.save(gateway);
+					switch (save) {
+						case 0:
+							return new Feedback(CodeEnum.PARAM.getNumber(), CodeEnum.PARAM.getDescription(), "该网关已入网");
+						case -1:
+							return new Feedback(CodeEnum.SYSTEM.getNumber(), CodeEnum.SYSTEM.getDescription(), "系统错误");
+						default:
+							result = true;
+					}
+					break;
 				case ENTER:
 					String r = commandService.enter(udid, info.getName());
 					result = (r != null);
@@ -130,8 +144,8 @@ public class RemoteController extends CommonController {
 		String uuid = info.getLock();
 		int index = info.getIndex();
 		switch (operation) {
-			//入网
-			case ENTER:
+			case REGISTER://网关入网
+			case ENTER://门锁入网
 				return StringUtils.hasText(info.getGateway()) && StringUtils.hasText(info.getName());
 			case BEGIN:
 			case BIND:

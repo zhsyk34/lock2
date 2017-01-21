@@ -2,6 +2,7 @@ package com.dnake.controller;
 
 import com.dnake.common.Page;
 import com.dnake.common.PageData;
+import com.dnake.common.ResultMsg;
 import com.dnake.entity.Gateway;
 import com.dnake.kit.ValidateKit;
 import org.springframework.stereotype.Controller;
@@ -32,12 +33,17 @@ public class GatewayController extends CommonController {
 
 	@RequestMapping("/save")
 	@ResponseBody
-	public boolean save(Gateway gateway) {
+	public ResultMsg save(Gateway gateway) {
 		if (ValidateKit.valid(gateway.getId())) {
 			Gateway original = gatewayService.find(gateway.getId());
-			return original != null && gatewayService.update(original.setName(gateway.getName()).setVersion(gateway.getVersion())) > 0;
+			if (original == null) {
+				return ResultMsg.from(false, "网关不存在");
+			}
+			boolean r = gatewayService.update(original.setName(gateway.getName()).setVersion(gateway.getVersion())) > 0;
+			return ResultMsg.from(r, r ? "修改成功" : "修改失败");
 		}
-		return gatewayService.save(gateway) > 0;
+		int r = gatewayService.save(gateway);
+		return ResultMsg.from(r > 0, r > 0 ? "添加成功" : r == 0 ? "网关已存在" : "设备号不存在");
 	}
 
 	@RequestMapping("/delete")

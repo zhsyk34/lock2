@@ -10,6 +10,8 @@ import com.dnake.entity.Gateway;
 import com.dnake.kit.ValidateKit;
 import com.dnake.service.GatewayService;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -24,8 +26,12 @@ public class GatewayServiceImpl implements GatewayService {
 	@Override
 	public int save(Gateway gateway) {
 		String udid = gateway.getUdid();
+		Gateway original = gatewayDao.find(udid);
+		if (original != null) {
+			//网关已存在
+			return 0;
+		}
 		String r = GatewaySnService.search(udid);
-		System.out.println(r);
 		JSONObject json = JSON.parseObject(r);
 		if (!json.getBooleanValue("success")) {
 			return -1;
@@ -35,6 +41,9 @@ public class GatewayServiceImpl implements GatewayService {
 			return -1;
 		}
 		gateway.setSn(sn);
+		if (StringUtils.isEmpty(gateway.getVersion())) {
+			gateway.setVersion("v1.0");
+		}
 		return gatewayDao.save(gateway);
 	}
 
@@ -59,8 +68,14 @@ public class GatewayServiceImpl implements GatewayService {
 	}
 
 	@Override
-	public Gateway find(String udid) {
+	public Gateway findByUdid(String udid) {
 		return gatewayDao.find(udid);
+	}
+
+	@Override
+	public Gateway findBySn(String sn) {
+		List<Gateway> list = gatewayDao.findList(sn, null, null, null);
+		return CollectionUtils.isEmpty(list) ? null : list.get(0);
 	}
 
 	@Override

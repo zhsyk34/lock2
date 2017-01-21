@@ -9,6 +9,7 @@ import com.dnake.service.CommandService;
 import com.dnake.service.GatewayService;
 import com.dnake.service.LockService;
 import com.dnake.service.WordService;
+import com.xdtech.sh.util.InitServer;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -37,7 +38,7 @@ public class CommandServiceImpl implements CommandService {
 
 	@Override
 	public String enter(String udid, String name) {
-		Gateway gateway = gatewayService.find(udid);
+		Gateway gateway = gatewayService.findByUdid(udid);
 		if (gateway == null) {
 			return null;
 		}
@@ -68,7 +69,7 @@ public class CommandServiceImpl implements CommandService {
 
 	@Override
 	public boolean begin(String udid, int number) {
-		Gateway gateway = gatewayService.find(udid);
+		Gateway gateway = gatewayService.findByUdid(udid);
 		if (gateway == null) {
 			return false;
 		}
@@ -88,7 +89,7 @@ public class CommandServiceImpl implements CommandService {
 
 	@Override
 	public boolean bind(String udid, int number) throws ControlException {
-		Gateway gateway = gatewayService.find(udid);
+		Gateway gateway = gatewayService.findByUdid(udid);
 		if (gateway == null) {
 			return false;
 		}
@@ -111,7 +112,7 @@ public class CommandServiceImpl implements CommandService {
 		lockService.update(lock.setPermission(true));
 
 		//save word info
-		String password = "576838";//TODO:default word
+		String password = InitServer.DEFAULT_PASSWORD;
 		int index = 1;
 		Word word = wordService.find(lockId, index);
 		if (word == null) {
@@ -140,7 +141,7 @@ public class CommandServiceImpl implements CommandService {
 
 	@Override
 	public boolean word(String udid, int number, int index, String value) throws ControlException {
-		Gateway gateway = gatewayService.find(udid);
+		Gateway gateway = gatewayService.findByUdid(udid);
 		if (gateway == null) {
 			return false;
 		}
@@ -200,7 +201,7 @@ public class CommandServiceImpl implements CommandService {
 
 	@Override
 	public boolean delete(String udid, int number, int index) throws ControlException {
-		Gateway gateway = gatewayService.find(udid);
+		Gateway gateway = gatewayService.findByUdid(udid);
 		if (gateway == null) {
 			return false;
 		}

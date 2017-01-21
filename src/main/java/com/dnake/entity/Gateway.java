@@ -24,7 +24,7 @@ public class Gateway {
 	private String ip = "127.0.0.1";
 	private int port = 50000;
 	private String remote = "114.55.219.171";
-	private String version;
+	private String version = "v1.0";
 	private LocalDateTime createTime = LocalDateTime.now();
 	private LocalDateTime updateTime = LocalDateTime.now();
 }

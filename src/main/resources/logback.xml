@@ -21,17 +21,7 @@
         <prudent>false</prudent>
     </appender>
 
-    <!-- <logger name="com.dnake.smart" level="debug" additivity="false">
-         <appender-ref ref="STDOUT"/>
-     </logger>
-
-     <logger name="mapper" level="debug" additivity="false"/>-->
-
-    <logger name="com.dnake.smart.exception" level="debug" additivity="false">
-        <appender-ref ref="ROLL"/>
-    </logger>
-
-    <root level="trace">
+    <root level="debug">
         <appender-ref ref="STDOUT"/>
         <appender-ref ref="ROLL"/>
     </root>

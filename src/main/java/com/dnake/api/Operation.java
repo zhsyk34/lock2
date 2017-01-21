@@ -9,6 +9,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Getter
 public enum Operation {
+	REGISTER("网关认证"),
 	ENTER("入网"),
 	BEGIN("对码"),
 	BIND("绑定"),

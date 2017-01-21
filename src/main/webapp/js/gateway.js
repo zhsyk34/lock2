@@ -90,13 +90,12 @@ $(function () {
                         form: $form,
                         url: "gateway/save",
                         after: function (data) {
+                            data = eval('(' + data + ')');
                             $.messager.progress("close");
                             $editor.dialog("close");
-                            if (data === "true") {
-                                $.messager.alert({title: $.message.prompt, msg: "操作成功"});
+                            $.messager.alert({title: $.message.prompt, msg: data["msg"]});
+                            if (data["result"] === true) {
                                 load();
-                            } else {
-                                $.messager.alert({title: $.message.warn, msg: "操作失败"});
                             }
                         }
                     });

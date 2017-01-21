@@ -1,6 +1,7 @@
 package com.dnake.kit;
 
 import com.alibaba.fastjson.JSONObject;
+import com.xdtech.sh.util.InitServer;
 
 import java.nio.charset.Charset;
 import java.security.MessageDigest;
@@ -12,9 +13,9 @@ import java.util.Random;
 
 public abstract class SignKit {
 
-	private static final String APPSECRET = "C5833458F5B34D8DA2E37BD254AFEBD0E373AAD49857271F3BA67A78F4B603EE";
-	private static final String APPID = "XIAMEN01F2F8B1FA594446D52DD51B2F2A319B63";
-	private static final String fixChars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	private static final String APP_SECRET = InitServer.APP_SECRET;
+	private static final String APP_ID = InitServer.APP_ID;
+	private static final String FIX_CHARS = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 	public static boolean validate(JSONObject json) {
 		String sign = json.getString("sign");
@@ -23,14 +24,14 @@ public abstract class SignKit {
 			return false;
 		}
 
-		json.put("appSecret", APPSECRET);// 校验时添加密钥
+		json.put("appSecret", APP_SECRET);// 校验时添加密钥
 
 		return sign.equals(generateSign(json));
 	}
 
 	public static String makeSign(JSONObject json) {
-		json.put("appId", APPID);
-		json.put("appSecret", APPSECRET);
+		json.put("appId", APP_ID);
+		json.put("appSecret", APP_SECRET);
 		json.put("timestamp", "" + System.currentTimeMillis());
 		json.put("nonceStr", generateNonceStr(36));
 		json.put("sign", generateSign(json));
@@ -81,12 +82,12 @@ public abstract class SignKit {
 	 * 生成随机字符串
 	 */
 	private static String generateNonceStr(int length) {
-		final int range = fixChars.length();
+		final int range = FIX_CHARS.length();
 		final Random random = new Random();
 		final StringBuilder builder = new StringBuilder();
 
 		for (int i = 0; i < length; i++) {
-			builder.append(fixChars.charAt(Math.abs(random.nextInt()) % range));
+			builder.append(FIX_CHARS.charAt(Math.abs(random.nextInt()) % range));
 		}
 
 		return builder.toString();

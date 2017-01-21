@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS user (
 )
   COMMENT = '用户'
   ENGINE = InnoDB
+  AUTO_INCREMENT = 1
   DEFAULT CHARSET = UTF8;
 
 CREATE TABLE IF NOT EXISTS gateway (
@@ -29,6 +30,7 @@ CREATE TABLE IF NOT EXISTS gateway (
 )
   COMMENT = '网关'
   ENGINE = InnoDB
+  AUTO_INCREMENT = 1
   DEFAULT CHARSET = UTF8;
 
 CREATE TABLE IF NOT EXISTS locks (
@@ -44,6 +46,7 @@ CREATE TABLE IF NOT EXISTS locks (
 )
   COMMENT = '门锁'
   ENGINE = InnoDB
+  AUTO_INCREMENT = 1
   DEFAULT CHARSET = UTF8;
 
 CREATE TABLE IF NOT EXISTS word (
@@ -57,6 +60,24 @@ CREATE TABLE IF NOT EXISTS word (
 )
   COMMENT = '密码表'
   ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  DEFAULT CHARSET = UTF8;
+
+CREATE TABLE IF NOT EXISTS sessioninfo (
+  id         BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  sn         VARCHAR(36),
+  udid       VARCHAR(60)     NOT NULL,
+  address    VARCHAR(36)     NOT NULL,
+  tcpport    INT UNSIGNED,
+  udpport    INT UNSIGNED,
+  curudpport INT UNSIGNED,
+  createTime TIMESTAMP,
+  updateTime TIMESTAMP,
+  PRIMARY KEY (id)
+)
+  COMMENT = '连接会话信息'
+  ENGINE = InnoDB
+  AUTO_INCREMENT = 1
   DEFAULT CHARSET = UTF8;
 
 
@@ -76,5 +97,7 @@ ALTER TABLE locks
   ADD CONSTRAINT un_gw_no UNIQUE (gatewayId, number, permission);
 ALTER TABLE word
   ADD CONSTRAINT un_no_value UNIQUE (lockId, value);
+ALTER TABLE sessioninfo
+  ADD CONSTRAINT un_udid UNIQUE (udid);
 
 

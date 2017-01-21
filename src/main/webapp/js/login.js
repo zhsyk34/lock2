@@ -25,7 +25,6 @@ $(function () {
                 password: $.trim($("#password").val())
             },
             success: function (data) {
-                console.log(data);
                 if (data === true) {
                     window.location = $.basePath + "index";
                     return;

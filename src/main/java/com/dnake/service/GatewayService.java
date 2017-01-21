@@ -16,7 +16,9 @@ public interface GatewayService {
 
 	Gateway find(long id);
 
-	Gateway find(String udid);
+	Gateway findByUdid(String udid);
+
+	Gateway findBySn(String sn);
 
 	List<Gateway> findList();
 

@@ -29,7 +29,7 @@
             <table>
                 <tr class="gateway">
                     <td>所属网关:<input type="hidden" name="id"></td>
-                    <td><input id="gatewayId" name="gatewayId"></td>
+                    <td><input id="gatewayId" name="gatewayId" style="width: 150px;"></td>
                 </tr>
                 <tr>
                     <td>门锁名称:</td>
